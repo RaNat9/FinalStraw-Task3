@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold mb-4">Welcome, {{ g.user.username }}!</h2>
+    <div class="mt-4">
+        <h3 class="text-2xl font-bold mb-2">Your Rewards</h3>
+        {% if rewards %}
+        <ul class="list-disc list-inside space-y-2">
+            {% for reward in rewards %}
+            <li class="p-3 bg-gray-100 rounded-lg">
+                <span class="font-bold">{{ reward.reward }}</span> awarded by {{ reward.awarded_by_teacher }} on {{ reward.timestamp }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="text-gray-500">You have no rewards yet. Keep up the good work!</p>
+        {% endif %}
+    </div>
+</div>

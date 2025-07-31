@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Teacher Dashboard{% endblock %}
+{% block content %}
+<div class="bg-white p-6 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-bold mb-4">Teacher Dashboard</h2>
+    <form action="{{ url_for('teacher_dashboard') }}" method="POST" class="mb-6">
+        <label for="student_id" class="block text-gray-700 font-bold mb-2">Select Student:</label>
+        <div class="flex space-x-2">
+            <select name="student_id" id="student_id" class="flex-grow px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student.username }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md">View History</button>
+        </div>
+    </form>
+    {% if student_history %}
+    <div class="mt-4">
+        <h3 class="text-2xl font-bold mb-2">Rewards for {{ selected_student }}</h3>
+        <ul class="list-disc list-inside space-y-2">
+            {% for reward in student_history %}
+            <li class="p-3 bg-gray-100 rounded-lg">
+                <span class="font-bold">{{ reward.reward }}</span> awarded by {{ reward.awarded_by_teacher }} on {{ reward.timestamp }}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% elif selected_student %}
+    <p class="text-gray-500">No rewards found for {{ selected_student }}.</p>
+    {% endif %}
+</div>
+{% endblock %}
