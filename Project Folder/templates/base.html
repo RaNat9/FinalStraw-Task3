@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rewards App - {% block title %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        // Register the service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope:', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex flex-col min-h-screen">
+    <header class="bg-gray-800 text-white p-4 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold">Rewards App</h1>
+            {% if g.user %}
+            <nav>
+                <ul class="flex space-x-4">
+                    <li>
+                        <a href="{{ url_for('dashboard') }}" class="text-white hover:text-gray-300">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('logout') }}" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-full">Logout</a>
+                    </li>
+                </ul>
+            </nav>
+            {% endif %}
+        </div>
+    </header>
+    <main class="container mx-auto mt-8 flex-grow p-4">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="bg-gray-800 text-white text-center p-4 mt-8">
+        <p>&copy; 2024 Rewards App. All rights reserved.</p>
+    </footer>
+</body>
+</html>
